@@ -22,3 +22,26 @@ function getMessages(){
 
     requeteAjax.send();
 }
+
+function postMessage(event) {
+    event.preventDefault()
+    const author = document.querySelector('#author');
+    const content = document.querySelector('#content');
+
+    const data = new FormData();
+    data.append('author', author.value);
+    data.append('content', content.value);
+
+    const requeteAjax = new XMLHttpRequest();
+    requeteAjax.open('POST', 'handler.php?task=write');
+
+    requeteAjax.onload = function() {
+        content.value = '';
+        content.focus();
+        getMessages();
+    }
+
+    requeteAjax.send(data);
+}
+
+document.querySelector('form').addEventListener('submit', postMessage);
